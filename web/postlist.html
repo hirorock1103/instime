@@ -3,15 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <title>instime実行管理画面</title>
+<script type="text/javascript" src="/eel.js"></script>
 <link href="css/reset.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 </head>
 
-<style type="text/css">
-	article{
-		text-align: left;
-	}
-</style>
 
 <body>
     <header>
@@ -28,20 +24,18 @@
     </nav>
     <main>
     	
-
         <article>
-
             <h2>ターゲットリスト作成(投稿)</h2>
             <div class="search f-left">
                 <div class="container mbt20">
                     <div class="item">
                     	<span>keyword</span>
-                        <input type="text">  
+                        <input id="form1" type="text">
                     </div>
 
                     <div class="item">
                         <span>#hashTag</span>    
-                        <input type="text">           
+                        <input id="form2" type="text">
                     </div>
 
                 </div>
@@ -60,15 +54,14 @@
 
                 <div class="container mbt20">
                     <div class="item">
-                        <button>検索</button>
+                        <button onclick="bt_search_post_list()">検索</button>
                     </div>
                     <div class="item">
-                        <button>ハッシュタグセット</button>
+                        <button onclick="bt_start_hashtag()">ハッシュタグセット</button>
                     </div>
                     <div class="item">
                         <button>リスト作成</button>
                     </div>
-
                 </div>
             </div>
             <div class="search-list f-left mleft20">
@@ -88,42 +81,27 @@
             <div class="container clear-both">
                 <div class="item">
                     <span>keyword</span>
-                    <input type="text">  
+                    <input id="s-keyword" type="text">
                 </div>
                 <div class="item">
-                    <button>リスト追加</button>
+                    <button onclick="bt_launch_get_post()">リスト追加</button>
                 </div>
                 <div class="item">
-                    <button>インスタ</button>
+                    <button onclick="bt_launch_instagram()">インスタ</button>
                 </div>
             </div>
-
         </article>
 
 
         <article>
             
-            <table class="type01">
+            <table id="search-result-list" class="type01">
                 <tr>
                     <th class="time">No</th>
                     <th>URL</th>
                     <th>HashTag</th>
                     <th>user</th>
                     <th>投稿日</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>https://www.instagram.com/p/Bv0cvGEF62N/</td>
-                    <td>#cheergirl #cheerdance #チアガール #チアダンス #ちあだん #6歳女の子 #柔軟 #acrobat #Calisthenics #japanesegirl#cheergirl #cheerdance #チアガール #チアダンス #ちあだん #6歳女の子 #柔軟 #acrobat #Calisthenics #japanesegirl</td>
-                    <td>telk2222</td>
-                    <td>2019/08/22</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>https://www.instagram.com/p/Bv0cvGEF62N/</td>
-                    <td>#cheergirl #che</td>
-                    <td>telk2222</td>
-                    <td>2019/08/22</td>
                 </tr>
 
             </table>
@@ -136,3 +114,58 @@
     </footer>
 </body>
 </html>
+<script type="text/javascript">
+
+    function bt_start_hashtag(){
+        eel.bt_start_hashtag();
+    }
+    async function bt_search_post_list(){
+
+        form1 = document.getElementById("form1").value;
+        form2 = document.getElementById("form2").value;
+
+        console.log(form1)
+        console.log(form2)
+
+        data = await eel.bt_search_post_list(form1, form2)();
+    }
+    eel.expose(add_record);
+    function add_record(no, word, url, hash, user, post){
+        tbl = document.getElementById("search-result-list");
+        r = tbl.insertRow(-1);
+        cell1 = r.insertCell(0);
+        cell2 = r.insertCell(1);
+        cell3 = r.insertCell(2);
+        cell4 = r.insertCell(3);
+        cell5 = r.insertCell(4);
+        cell1.innerHTML = no;
+        cell2.innerHTML = word;
+        cell3.innerHTML = hash;
+        cell4.innerHTML = user;
+        cell5.innerHTML = post;
+
+    }
+    eel.expose(delete_rows);
+    function delete_rows(){
+        tbl = document.getElementById("search-result-list");
+        rowLen = tbl.rows.length;
+        for (var i = rowLen-1; i > 0; i--) {
+            tbl.deleteRow(i);
+        }
+    }
+
+    function bt_launch_instagram(){
+        eel.bt_launch_instagram("https://www.instagram.com/explore/tags/%E3%82%AE%E3%82%BF%E3%83%BC/");
+    }
+
+    function bt_launch_get_post(){
+        keyword = document.getElementById("s-keyword").value;
+        console.log(keyword)
+        if(!keyword){
+            alert("keywordが空です")
+        }else{
+            eel.bt_launch_get_post(keyword);
+        }
+    }
+
+</script>

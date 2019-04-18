@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>instime実行管理画面</title>
+<script type="text/javascript" src="/eel.js"></script>
 <link href="css/reset.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 </head>
@@ -43,7 +44,7 @@
 
             <div class="container mbt20">
                 <div class="item">
-                    <button>本申込アカウント 12件</button>
+                    <button onclick="link1_click()">本申込アカウント 12件</button>
                 </div>
                 <div class="item">
                     <button>仮申込アカウント 20件</button>
@@ -56,7 +57,7 @@
                 <div class="item">
                     <button>登録ポスト数 501211件</button>
                 </div>
-                
+
                 <div class="item">
                     <button>登録ユーザー数 501211件</button>
                 </div>
@@ -64,7 +65,9 @@
 
         </article>
 
-
+        <article>
+            <div id="target"></div>
+        </article>
 
     </main>
 
@@ -73,3 +76,12 @@
     </footer>
 </body>
 </html>
+
+<script type="text/javascript">
+    
+    function link1_click(){
+        eel.link1_click();
+    }
+
+
+</script>

@@ -169,7 +169,7 @@ table.type01 th:last-child{
 }
 
 table.type01 th{
-  text-align: center;
+  text-align: left;
   color:white;
   background: linear-gradient(#829ebc,#225588);
   border-left: 1px solid #3c6690;
@@ -181,7 +181,7 @@ table.type01 th{
 }
 
 table.type01 td{
-  text-align: center;
+  text-align: left;
   border-left: 1px solid #a8b7c5;
   border-bottom: 1px solid #a8b7c5;
   border-top:none;

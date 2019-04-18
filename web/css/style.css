@@ -1,0 +1,271 @@
+
+
+@charset "utf-8";
+/* CSS Document */
+
+body{
+font: 12px "Hiragino Kaku Gothic Pro",Osaka,"メイリオ","ＭＳ Ｐゴシック","MS PGothic",Verdana,Arial,sans-serif;
+margin:0;
+color:#313131;
+}
+
+img{
+outline:none;
+border-style:none;
+}
+
+a{
+    text-decoration: none;
+}
+a:visited{
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: none;
+}
+
+
+/* CSS Document */
+
+/*****HEADER*****/
+header{
+    display: block;
+    width:60%;
+    margin-left: 5px;
+    overflow: hidden;
+    padding: 10px 20px 10px 20px;
+}
+header h1{
+    font-size:120%;
+    color:#313131;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border:1px solid #313131;
+    border-radius: 5px;
+    letter-spacing: 3px;
+    font-weight:400;
+    float: left;
+}
+header p{
+    font-size:100%;
+    color:#313131;
+    float: left;
+}
+
+
+
+/*****NAV*****/
+nav{
+    width: 100%;
+    overflow: hidden;
+    padding: 5px 20px 5px 20px;
+}
+nav ul{
+    width: 100%;
+    /* margin-left: 20%; */
+}
+nav li{
+	padding: 7px;
+    letter-spacing: 5px;
+    line-height: 30px;
+    border: 1px solid orange;
+    border-radius: 4px;
+    color: #313131;
+    float: left;
+    margin-left: 3px;
+}
+nav li:last-child{
+    border-right: 1px solid orange;
+}
+
+nav li:hover{
+    background-color: orange;
+    transition: background-color 0.5s ease-out;
+    color: #fff;
+}
+
+/*****ARTICLE*****/
+main{
+	width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+	padding: 50px 20px 30px 20px;
+    display: 0 auto;
+    text-align: center;
+}
+
+/****article****/
+article{
+    margin-bottom: 20px;
+}
+
+
+/*****parts******/
+
+select, input{
+	padding: 8px;
+	border-radius: 5px;
+}
+
+button{
+	padding: 5px;
+	border-radius: 5px;
+}
+button.detail{
+    background: #ff8c00;
+    color: #fff;
+}
+button.delete{
+    background: #dc143c;
+    color: #fff;
+}
+button.invalid{
+    background: #4682b4;
+    color: #fff;
+}
+
+footer{
+	clear:both;
+    font-size: 80%;
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #313131;
+}
+footer small{
+    color: #fff;
+    letter-spacing: 5px;
+}
+
+
+/**h**/
+h2{
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+/**table**/
+table.type01{
+  width: 95%;
+  border-collapse:separate;
+  border-spacing: 0;
+}
+
+table.type01 th:first-child{
+  border-radius: 5px 0 0 0;
+}
+
+table.type01 th:last-child{
+  border-radius: 0 5px 0 0;
+  border-right: 1px solid #3c6690;
+}
+
+table.type01 th{
+  text-align: center;
+  color:white;
+  background: linear-gradient(#829ebc,#225588);
+  border-left: 1px solid #3c6690;
+  border-top: 1px solid #3c6690;
+  border-bottom: 1px solid #3c6690;
+  box-shadow: 0px 1px 1px rgba(255,255,255,0.3) inset;
+
+  padding: 10px 8px;
+}
+
+table.type01 td{
+  text-align: center;
+  border-left: 1px solid #a8b7c5;
+  border-bottom: 1px solid #a8b7c5;
+  border-top:none;
+  box-shadow: 0px -3px 5px 1px #eee inset;
+  padding: 5px 8px;
+}
+table.type01 th.time, td.time{
+    width:6%;
+}
+
+table.type01 td:last-child{
+  border-right: 1px solid #a8b7c5;
+}
+
+table.type01 tr:last-child td:first-child {
+  border-radius: 0 0 0 5px;
+}
+
+table.type01 tr:last-child td:last-child {
+  border-radius: 0 0 5px 0;
+}
+
+/**table type02***/
+table.type02{
+    margin-right: 10px;
+}
+
+/***ul****/
+ul.log{
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 5px;
+    margin-right: 10px;
+    height: 200px;
+    overflow: scroll;
+}
+
+
+/***f-left*****/
+.f-left{
+    float: left;
+}
+
+.f-right{
+    float: right;
+}
+
+.clear-both{
+    clear: both;
+}
+
+/*** FLEX ****/
+div.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+div.item{
+    margin-left: 10px;
+}
+
+/*****div******/
+div.search{
+    width: 50%;
+    padding: 20px 10px 10px 10px;
+    border-radius: 3px;
+    border:1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+div.search-list{
+    width: 40%;
+    padding: 20px 10px 10px 10px;
+    border-radius: 3px;
+    border:1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+/****Margins*****/
+.mleft20{
+    margin-left: 20px;
+}
+.mbt10{
+    margin-bottom: 10px;
+}
+.mbt20{
+    margin-bottom: 20px;
+}

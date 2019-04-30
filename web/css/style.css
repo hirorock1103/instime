@@ -128,6 +128,10 @@ button.invalid{
     color: #fff;
 }
 
+span.r-title:before{
+    content:"★";
+}
+
 footer{
 	clear:both;
     font-size: 80%;
@@ -149,6 +153,7 @@ h2{
     font-weight: bold;
     margin-top: 10px;
     margin-bottom: 10px;
+    text-align:left;
 }
 
 
@@ -219,6 +224,13 @@ ul.log{
     overflow: scroll;
 }
 
+/****div****/
+div#count{
+    font-size: 130%;
+    text-align: left;
+    padding: 5px;
+    margin-top: 10px;
+}
 
 /***f-left*****/
 .f-left{
@@ -259,6 +271,14 @@ div.search-list{
     margin-bottom: 20px;
 }
 
+article.account_area{
+    background: #efefef;
+    padding: 20px;
+    width: 91%;
+    /* border: 1px solid #eee; */
+    border-radius: 7px;
+}
+
 /****Margins*****/
 .mleft20{
     margin-left: 20px;
@@ -269,3 +289,11 @@ div.search-list{
 .mbt20{
     margin-bottom: 20px;
 }
+.mbt30{
+    margin-bottom: 30px;
+}
+/*** highlight ***/
+span.mark1{
+    background:yellow;
+}
+

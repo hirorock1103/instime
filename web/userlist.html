@@ -3,31 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <title>instime実行管理画面</title>
+    <script type="text/javascript" src="/eel.js"></script>
 <link href="css/reset.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 </head>
 
-<style type="text/css">
-	article{
-		text-align: left;
-	}
-</style>
-
 <body>
     <header>
-        <h1><a href="index.html">instime実行管理画面</a></h1>
+        <h1>instime実行管理画面</h1>
     </header>
-    <nav id="grobal-nav">
-        <ul>
-            <li><a href="index.html">TOP</a></li>
-            <li><a href="postlist.html">ターゲットリスト作成(投稿)</a></li>
-            <li><a href="userlist.html">ターゲットリスト作成(ユーザー)</a></li>
-            <li><a href="schedule.html">アクションスケジュール</a></li>
-            <li><a href="situation.html">稼働状況</a></li>
-        </ul>
-    </nav>
     <main>
-    	
 
         <article>
 
@@ -40,8 +25,8 @@
                     </div>
 
                     <div class="item">
-                        <span>ユーザーID</span>    
-                        <input type="text">           
+                        <span>ユーザーID</span>
+                        <input id="search-target-user" type="text">
                     </div>
 
                 </div>
@@ -56,7 +41,7 @@
 
                 <div class="container mbt20">
                     <div class="item">
-                        <button>検索</button>
+                        <button onclick="get_user_list()">検索</button>
                     </div>
                     <div class="item">
                         <button>リスト作成</button>
@@ -68,10 +53,10 @@
             <div class="container clear-both">
                 <div class="item">
                     <span>user ID</span>
-                    <input type="text">  
+                    <input id="target-user" type="text">
                 </div>
                 <div class="item">
-                    <button>リスト追加(フォロワー追加)</button>
+                    <button onclick="launch_get_user()">リスト追加(フォロワー追加)</button>※ログイン後取得実行
                 </div>
             </div>
 
@@ -79,21 +64,15 @@
 
 
         <article>
-            
-            <table class="type01">
+
+            <div id="count">件数</div>
+            <table id="search-result-list" class="type01">
                 <tr>
                     <th class="time">No</th>
                     <th>user ID</th>
                     <th>フォロワーURL</th>
                     <th>属性など</th>
                     <th>登録日</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>cheergirl</td>
-                    <td>https://www.instagram.com/p/Bv0cvGEF62N/</td>
-                    <td>大阪、店舗、ラーメン</td>
-                    <td>2019/08/22</td>
                 </tr>
 
 
@@ -107,3 +86,59 @@
     </footer>
 </body>
 </html>
+<script type="text/javascript">
+
+    function launch_get_user(){
+        user = document.getElementById("target-user").value;
+        if(!user){
+            alert("target user is empty!");
+        }else{
+            eel.bt_launch_get_user(user);
+        }
+    }
+
+    eel.expose(add_user_record);
+    function get_user_list(){
+
+        user = document.getElementById("search-target-user").value;
+        follower = "";
+        eel.bt_search_users(user, follower);
+
+    }
+
+    function add_user_record(count, dataId, userId, follower, create){
+
+        c = document.getElementById("count");
+        c.innerHTML = "件数:" + count + "件";
+
+        if(count > 0){
+
+            tbl = document.getElementById("search-result-list");
+            r = tbl.insertRow(-1);
+            cell1 = r.insertCell(0);
+            cell2 = r.insertCell(1);
+            cell3 = r.insertCell(2);
+            cell4 = r.insertCell(3);
+            cell5 = r.insertCell(4);
+
+            cell1.innerHTML = dataId;
+            cell2.innerHTML = userId;
+            cell3.innerHTML = follower;
+            cell4.innerHTML = "";
+            cell5.innerHTML = create;
+
+        }
+
+
+    }
+    eel.expose(delete_user_rows);
+    function delete_user_rows(){
+        tbl = document.getElementById("search-result-list");
+        rowLen = tbl.rows.length;
+        for (var i = rowLen-1; i > 0; i--) {
+            tbl.deleteRow(i);
+        }
+    }
+
+
+</script>

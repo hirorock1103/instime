@@ -4,38 +4,46 @@ import eel
 import sqlite3
 from selenium import webdriver
 
-class Driver:
-	path = r"C:\Users\USER\Desktop\chromedriver_win32 (2)/chromedriver.exe"
+my_options = {
+    'mode': "chrome-app", #or "chrome-app",
+    'port': 0,
+    # 'chromeFlags': ["--start-fullscreen", "--browser-startup-dialog"]
+}
 
-	def open(self, url):
-		driver = webdriver.Chrome(self.path)
-		driver.get(url)
+class Driver:
+    path = r"C:\Users\USER\Desktop\chromedriver_win32 (2)/chromedriver.exe"
+
+    def open(self, url):
+        driver = webdriver.Chrome(self.path)
+        driver.get(url)
 
 
 def main():
-	print("起動成功")
-	eel.init("web")
-	eel.start("postlist.html")
+    print("起動成功")
+    eel.init("web")
+    eel.start("index.html", options=my_options)
 
+
+# ****************post list page******************
 
 @eel.expose
 def bt_launch_instagram(url):
-	print(url)
-	driver = Driver()
-	driver.open(url)
+    print(url)
+    driver = Driver()
+    driver.open(url)
 
 
 @eel.expose
 def bt_launch_get_post(kw):
-	print(kw)
-	from subprocess import Popen
-	cmd = "py scroll.py " + kw
-	proc = Popen(cmd, shell=True)
+    print(kw)
+    from subprocess import Popen
+    cmd = "py scroll.py " + kw
+    proc = Popen(cmd, shell=True)
 
 
 @eel.expose
 def bt_search_post_list(keyword, hashtag):
-	print("bt_search_post_list")
+
 	con = sqlite3.connect('sample.db')
 	cursor = con.cursor()
 
@@ -87,22 +95,21 @@ def bt_search_post_list(keyword, hashtag):
 		cursor.execute(query2)
 
 	eel.delete_rows()
-
+	count = 0
 	for row in cursor:
 		try:
+			count += 1
 			dataId = row[0]
-			word = row[1]
-			postDate = row[2]
-			url = row[3]
-			user = row[4]
-			tag = row[5]
+			word = row[2]
+			postDate = row[3]
+			url = row[1]
+			tag = row[4]
+			user = row[5]
 			create = row[7]
 			converted_post_date = row[6]
 
 			# create row
-			print(word)
-			print(url)
-			eel.add_record(dataId, word, url, tag, user, converted_post_date)
+			eel.add_record(count, dataId, word, url, tag, user, converted_post_date)
 
 		except:
 			print("err")
@@ -116,10 +123,97 @@ def bt_start_hashtag():
 	proc = Popen(cmd, shell=True)
 	print("pid: " + str(proc.pid))
 
+@eel.expose
+def show_check_area():
+
+	con = sqlite3.connect('sample.db')
+	cursor = con.cursor()
+	q = "SELECT word FROM SampleGetPostList GROUP BY word"
+	cursor.execute(q)
+	count = 0
+	for row in cursor:
+		count += 1
+		eel.add_check_box(count, row[0])
+
+
+@eel.expose
+def create_post_list_file(fileName):
+    print(fileName)
+
+
+
+
+# ****************user list page******************
+@eel.expose
+def bt_launch_get_user(u):
+	from subprocess import Popen
+	cmd = "py getlist.py " + u
+	proc = Popen(cmd, shell=True)
+	print("pid: " + str(proc.pid))
+
+@eel.expose
+def bt_search_users(user, follower):
+
+	con = sqlite3.connect('sample.db')
+	cursor = con.cursor()
+
+	query = "CREATE TABLE IF NOT EXISTS SampleGetUserList(id integer primary key AUTOINCREMENT, url text, user text, createdate text)"
+	cursor.execute(query)
+
+	formWordUser = user
+	formWordFollower = follower
+
+	query2 = ""
+	args = ""
+	if formWordUser == "" and formWordFollower == "":
+		query2 = "SELECT * FROM SampleGetUserList ORDER BY id ASC"
+
+	elif formWordUser != "" and formWordFollower == "":
+		query2 = "SELECT * FROM SampleGetUserList" + " WHERE user like ?  ORDER BY id ASC"
+		args = ("%" + formWordUser + "%",)
+
+	elif formWordUser == "" and formWordFollower != "":
+		query2 = "SELECT * FROM SampleGetUserList" + " WHERE url like ?  ORDER BY id ASC"
+		args = ("%" + formWordFollower + "%",)
+
+	else:
+		query2 = "SELECT * FROM SampleGetUserList" + " WHERE user like ? AND url like ?  ORDER BY id ASC"
+		args = ("%" + formWordUser + "%", "%" + formWordFollower + "%",)
+
+	if args != "":
+		cursor.execute(query2, args)
+	else:
+		cursor.execute(query2)
+
+	eel.delete_user_rows()
+	count = 0
+	eel.add_user_record(count, "", "", "", "")
+	for row in cursor:
+		try:
+			count += 1
+			dataId = row[0]
+			userId = row[2]
+			follower = row[1]
+			create = row[3]
+
+			# create row
+			eel.add_user_record(count, dataId, userId, follower, create)
+
+		except:
+			print("err")
+
+	con.commit()
+
+
+
+@eel.expose
+def link(url):
+	print(url)
+	# eel.start(url, block=False)
+	eel.browsers.open([url, ], options=my_options)
 
 
 if __name__ == "__main__":
-
 	main()
 
 

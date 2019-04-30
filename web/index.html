@@ -20,11 +20,10 @@
     </header>
     <nav id="grobal-nav">
         <ul>
-            <li><a href="index.html">TOP</a></li>
-            <li><a href="postlist.html">ターゲットリスト作成(投稿)</a></li>
-            <li><a href="userlist.html">ターゲットリスト作成(ユーザー)</a></li>
-            <li><a href="schedule.html">アクションスケジュール</a></li>
-            <li><a href="situation.html">稼働状況</a></li>
+            <li><a href="" onclick="link('postlist.html')">ターゲットリスト作成(投稿)</a></li>
+            <li><a href="" onclick="link('userlist.html')">ターゲットリスト作成(ユーザー)</a></li>
+            <li><a href="" onclick="link('schedule.html')">アクションスケジュール</a></li>
+            <li><a href="" onclick="link('situation.html')">稼働状況</a></li>
         </ul>
     </nav>
     <main>
@@ -78,7 +77,11 @@
 </html>
 
 <script type="text/javascript">
-    
+
+    function link(url){
+        eel.link(url);
+    }
+
     function link1_click(){
         eel.link1_click();
     }

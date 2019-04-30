@@ -6,24 +6,37 @@
 <script type="text/javascript" src="/eel.js"></script>
 <link href="css/reset.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
+
 </head>
 
 
 <body>
     <header>
-        <h1><a href="index.html">instime実行管理画面</a></h1>
+        <h1>instime実行管理画面</h1>
     </header>
-    <nav id="grobal-nav">
-        <ul>
-            <li><a href="index.html">TOP</a></li>
-            <li><a href="postlist.html">ターゲットリスト作成(投稿)</a></li>
-            <li><a href="userlist.html">ターゲットリスト作成(ユーザー)</a></li>
-            <li><a href="schedule.html">アクションスケジュール</a></li>
-            <li><a href="situation.html">稼働状況</a></li>
-        </ul>
-    </nav>
     <main>
-    	
+
+        <article class="mbt30 account_area">
+
+            <h2>ユーザー（リサーチ情報）</h2>
+            <div class="container mbt20">
+                <div class="item">
+                    <span>Account</span>
+                    <select name="account-user" id="account">
+                        <option>- select user -
+                    </select>
+                </div>
+                <div class="item">
+                    <button onclick="search_account()">検索</button>
+                </div>
+            </div>
+
+            <div id="account-area">
+
+            </div>
+
+        </article>
+
         <article>
             <h2>ターゲットリスト作成(投稿)</h2>
             <div class="search f-left">
@@ -43,7 +56,7 @@
                 <div class="container mbt20">
                     <div class="item">
                         <span>投稿日(from)</span>
-                        <input type="text">  
+                        <input id="datepicker" type="text">
                     </div>
 
                     <div class="item">
@@ -60,14 +73,14 @@
                         <button onclick="bt_start_hashtag()">ハッシュタグセット</button>
                     </div>
                     <div class="item">
-                        <button>リスト作成</button>
+                        <button onclick="bt_create_post_list()">リスト作成</button>
                     </div>
                 </div>
             </div>
             <div class="search-list f-left mleft20">
                     
                 <h2>登録済みのkeyword</h2>
-                <div class="container mbt20">
+                <div id="check-area" class="container mbt20">
                     
                     <input type="checkbox" id="sample_checkbox1"><label for="sample_checkbox1">ギャル</label>
                     <input type="checkbox" id="sample_checkbox2"><label for="sample_checkbox2">ギャル</label>
@@ -75,7 +88,7 @@
                     <input type="checkbox" id="sample_checkbox4"><label for="sample_checkbox4">ギャル</label>
 
                 </div>
-                <button>チェックした項目を反映</button>
+                <button onclick="bt_put_form1()">チェックした項目を反映</button>
 
             </div>
             <div class="container clear-both">
@@ -94,10 +107,12 @@
 
 
         <article>
-            
+
+            <div id="count">件数</div>
             <table id="search-result-list" class="type01">
                 <tr>
                     <th class="time">No</th>
+                    <th>word</th>
                     <th>URL</th>
                     <th>HashTag</th>
                     <th>user</th>
@@ -114,7 +129,131 @@
     </footer>
 </body>
 </html>
+<script type="text/javascript" src="./js/user.class.js"></script>
 <script type="text/javascript">
+
+    list = new Array();
+
+    user = new User();
+    user.setInstimeName("依織手作りbaby");
+    user.setId(12);
+    list.push(user);
+
+    user = new User();
+    user.setInstimeName("奈良っ子");
+    user.setId(55);
+    list.push(user);
+
+    user = new User();
+    user.setInstimeName("Androidアプリ");
+    user.setId(66);
+    list.push(user);
+
+    console.log(list);
+
+    list.forEach(function(user){
+        console.log(user.getInstimeName());
+    });
+
+    show_account_user();
+    show_check_area();
+
+    function show_account_user(){
+        accountArea = document.getElementById("account");
+
+        //FOR TEST
+
+        list.forEach(function(user){
+            option = document.createElement( "option" );
+            option.text = user.getInstimeName();
+            option.value=user.getId();
+            accountArea.add(option);
+        });
+
+    }
+    function search_account(){
+        accountArea = document.getElementById("account");
+        console.log(accountArea.value)
+
+        showArea = document.getElementById("account-area");
+        showArea.innerHTML = "";
+
+        if(accountArea.value > 0){
+
+            //Create Element
+            div = document.createElement('div');
+            div.classList.add("container");
+
+            child = createChild("取りたいターゲット:", "美容室のお客さん");
+            div.appendChild(child);
+            child = createChild("現在の業態:", "美容室");
+            div.appendChild(child);
+
+            showArea.appendChild(div);
+
+            div = document.createElement('div');
+            div.classList.add("container");
+            child = createChild("作成したファイル:", "美容室_大阪_20190204.txt");
+            div.appendChild(child);
+            div.appendChild(child);
+            showArea.appendChild(div);
+
+        }else{
+
+            div = document.createElement('div');
+            div.classList.add("container");
+            div.textContent = "ユーザーを選択してください。";
+            showArea.appendChild(div);
+
+        }
+
+    }
+
+    function createChild(title, contents){
+
+        child = document.createElement('div');
+        child.classList.add("item");
+
+        span1 = document.createElement('span');
+        span1.textContent = title;
+        span1.classList.add("r-title");
+        span2 = document.createElement('span');
+        span2.textContent = contents;
+
+        child.appendChild(span1);
+        child.appendChild(span2);
+
+        div.appendChild(child);
+
+        return child;
+
+    }
+
+    eel.expose(add_check_box);
+    function show_check_area(){
+        checkArea = document.getElementById("check-area");
+        checkArea.innerHTML = ""
+        eel.show_check_area();
+    }
+
+    function add_check_box(count, str){
+        checkArea = document.getElementById("check-area");
+        checkArea.innerHTML += '<input type="checkbox" class="chk" id="' + count + '" value="' + str + '"><label for="' + count + '">' + str + '</label>';
+    }
+
+    function bt_put_form1(){
+        elms = document.querySelectorAll('input[type="checkbox"]')
+
+        list = new Array();
+        for(i = 0; i < elms.length; i++){
+            if(elms[i].checked == true){
+               list.push(elms[i].value);
+            }
+        }
+        console.log(list);
+        form = document.getElementById("form1");
+        form.value = list.join(',');
+    }
 
     function bt_start_hashtag(){
         eel.bt_start_hashtag();
@@ -128,23 +267,44 @@
         console.log(form2)
 
         data = await eel.bt_search_post_list(form1, form2)();
+
+        show_check_area();
     }
     eel.expose(add_record);
-    function add_record(no, word, url, hash, user, post){
-        tbl = document.getElementById("search-result-list");
-        r = tbl.insertRow(-1);
-        cell1 = r.insertCell(0);
-        cell2 = r.insertCell(1);
-        cell3 = r.insertCell(2);
-        cell4 = r.insertCell(3);
-        cell5 = r.insertCell(4);
-        cell1.innerHTML = no;
-        cell2.innerHTML = word;
-        cell3.innerHTML = hash;
-        cell4.innerHTML = user;
-        cell5.innerHTML = post;
+    function add_record(count, no, word, url, hash, user, post){
+
+        form2 = document.getElementById("form2").value;
+
+        c = document.getElementById("count");
+        c.innerHTML = "件数:" + count + "件";
+        if(count < 100){
+            tbl = document.getElementById("search-result-list");
+            r = tbl.insertRow(-1);
+            cell1 = r.insertCell(0);
+            cell6 = r.insertCell(1);
+            cell2 = r.insertCell(2);
+            cell3 = r.insertCell(3);
+            cell4 = r.insertCell(4);
+            cell5 = r.insertCell(5);
+            cell1.innerHTML = no;
+            cell6.innerHTML = word;
+            cell2.innerHTML = url;
+            cell3.innerHTML = replacer( hash, form2, "mark1" );
+            cell4.innerHTML = user;
+            cell5.innerHTML = post;
+        }
 
     }
+
+    //highlight
+    function replacer(str, word, att){
+        var SearchString = '(' + word + ')';
+        var RegularExp = new RegExp( SearchString, "g" );
+        var ReplaceString = '<span class="' + att + '">$1</span>';
+        var ResString = str.replace( RegularExp , ReplaceString );
+        return ResString;
+    }
+
     eel.expose(delete_rows);
     function delete_rows(){
         tbl = document.getElementById("search-result-list");
@@ -166,6 +326,27 @@
         }else{
             eel.bt_launch_get_post(keyword);
         }
+    }
+
+    //createlist
+    function bt_create_post_list(){
+        file_name = get_file_name() + ".txt";
+        res = confirm("リスト(" + file_name + ")を作成します");
+        if(res) {
+            eel.create_post_list_file(file_name);
+        }
+    }
+    function get_file_name(){
+
+        keyword = "keyword_" + document.getElementById("form1").value;
+        hash = "hash_" + document.getElementById("form2").value;
+        today = new Date();
+        y = today.getFullYear();
+        m = today.getMonth() + 1;
+        d = today.getDate();
+        current = y + "-" + m + "-" + d;
+        return current + "_" + keyword + "_" + hash;
+
     }
 
 </script>
